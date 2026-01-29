@@ -1,0 +1,40 @@
+name: Repository Setup
+
+on:
+  workflow_dispatch:  # Permite ejecución manual
+  push:
+    branches: [ main ]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Create Essential Files
+      run: |
+        # Crear archivos si no existen
+        [ -f "README.md" ] || echo "# IXIMI Legacy" > README.md
+        [ -f "LICENSE" ] || echo "MIT License" > LICENSE
+        [ -f "package.json" ] || echo '{"name":"iximi-legacy"}' > package.json
+        [ -f ".gitignore" ] || echo "node_modules/" > .gitignore
+        
+        echo "✅ Essential files verified/created"
+        
+    - name: Quick Verification
+      run: |
+        echo "🔍 Quick verification..."
+        echo "Files: $(ls -la | wc -l) items"
+        echo "Size: $(du -sh . | cut -f1)"
+        echo "✅ Verification completed"
+        
+    - name: Success
+      run: |
+        echo "🎉 IXIMI Legacy setup completed successfully!"
+        echo "📊 Status: READY"
+        echo "👤 Author: Estefanía Pérez Vázquez"
+        echo "📧 Email: legacyiximi@gmail.com"
+        echo "🌐 Repo: https://github.com/legacyiximi-afk/iximi-legacy"

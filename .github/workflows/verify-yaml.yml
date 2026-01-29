@@ -1,0 +1,90 @@
+name: "✅ YAML Syntax Check"
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  verify-yaml:
+    name: 📝 Verify YAML Syntax
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    
+    steps:
+    - name: 🚀 Checkout
+      uses: actions/checkout@v4
+    
+    - name: 🔍 Install Python YAML parser
+      run: pip3 install pyyaml
+    
+    - name: 📄 Verify Workflow Files
+      run: |
+        echo "🔍 Verificando sintaxis YAML..."
+        echo ""
+        
+        ERROR_COUNT=0
+        
+        for file in .github/workflows/*.yml; do
+          echo "📄 $file"
+          
+          # Check if file exists
+          if [ ! -f "$file" ]; then
+            echo "❌ Archivo no encontrado"
+            ERROR_COUNT=$((ERROR_COUNT + 1))
+            continue
+          fi
+          
+          # Simple line count
+          LINES=$(wc -l < "$file")
+          echo "   Lines: $LINES"
+          
+          # Check for common YAML errors
+          if grep -q ":\s*#" "$file"; then
+            echo "   ⚠️  Space before comment detected"
+          fi
+          
+          # Try to parse with Python
+          if python3 -c "
+import yaml, sys
+try:
+    with open('$file', 'r', encoding='utf-8') as f:
+        yaml.safe_load(f)
+    print('   ✅ YAML válido')
+except yaml.YAMLError as e:
+    print(f'   ❌ Error YAML: {e}')
+    sys.exit(1)
+except Exception as e:
+    print(f'   ❌ Error: {e}')
+    sys.exit(1)
+          "; then
+            echo "   ✅ Parsed successfully"
+          else
+            ERROR_COUNT=$((ERROR_COUNT + 1))
+          fi
+          
+          echo ""
+        done
+        
+        # Final report
+        echo "📊 RESULTADO:"
+        if [ $ERROR_COUNT -eq 0 ]; then
+          echo "🎉 Todos los archivos YAML son válidos"
+          exit 0
+        else
+          echo "❌ Se encontraron $ERROR_COUNT archivos con errores"
+          exit 1
+        fi
+    
+    - name: ✅ Success Report
+      if: success()
+      run: |
+        echo "========================================"
+        echo "✅ YAML VERIFICATION - SUCCESS"
+        echo "========================================"
+        echo "All workflow files have valid YAML syntax"
+        echo "Total workflows: $(ls .github/workflows/*.yml | wc -l)"
+        echo "Status: ✅ READY FOR EXECUTION"
+        echo "========================================"
