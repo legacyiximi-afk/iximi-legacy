@@ -1,0 +1,75 @@
+name: "✅ CI Verification"
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    name: 📋 Verify Repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    
+    steps:
+    - name: 🚀 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 📊 Verify Structure
+      run: |
+        echo "🔍 IXIMI Legacy - Repository Verification"
+        echo "========================================="
+        echo ""
+        
+        # Check essential files
+        echo "📄 Essential Files Check:"
+        declare -A files
+        files["README.md"]="Project documentation"
+        files["LICENSE"]="MIT License"
+        files["package.json"]="Node.js configuration"
+        files["index.js"]="Main application"
+        files[".gitignore"]="Git ignore rules"
+        
+        all_good=true
+        for file in "${!files[@]}"; do
+          if [[ -f "$file" ]]; then
+            echo "✅ $file - ${files[$file]}"
+          else
+            echo "❌ $file - MISSING"
+            all_good=false
+          fi
+        done
+        
+        echo ""
+        echo "📁 Directory Structure:"
+        ls -la
+        
+        echo ""
+        echo "📈 Repository Metrics:"
+        echo "- Total files: $(find . -type f -not -path "./.git/*" | wc -l)"
+        echo "- JavaScript files: $(find . -name "*.js" -type f | wc -l)"
+        echo "- Total size: $(du -sh . | cut -f1)"
+        
+        echo ""
+        if $all_good; then
+          echo "🎉 VERIFICATION: ✅ ALL CHECKS PASSED"
+          echo "🚀 IXIMI Legacy is ready for development!"
+        else
+          echo "⚠️  VERIFICATION: ❌ SOME FILES MISSING"
+          echo "🔧 Please check the missing files above"
+          exit 1
+        fi
+    
+    - name: 🎯 Success Message
+      if: success()
+      run: |
+        echo "========================================"
+        echo "💎 IXIMI LEGACY - CI VERIFICATION"
+        echo "========================================"
+        echo "Status: ✅ SUCCESS"
+        echo "Project: Blockchain for indigenous textiles"
+        echo "Author: Estefanía Pérez Vázquez"
+        echo "Email: legacyiximi@gmail.com"
+        echo "Mission: Cultural preservation through technology"
+        echo "========================================"
