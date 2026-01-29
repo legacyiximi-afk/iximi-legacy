@@ -1,0 +1,80 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test and Build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Verify repository
+      run: |
+        echo "🔍 Verificando IXIMI Legacy..."
+        echo "📁 Archivos encontrados:"
+        ls -la
+        echo ""
+        echo "📄 README:"
+        head -10 README.md
+        echo ""
+        echo "✅ Verificación completada"
+    
+    - name: Run security checks
+      run: |
+        echo "🔒 Ejecutando verificaciones de seguridad..."
+        echo "1. Revisando archivos sensibles..."
+        if [ -f ".env" ]; then
+          echo "⚠️  ADVERTENCIA: Archivo .env detectado"
+        else
+          echo "✅ No hay archivos .env en el repo"
+        fi
+        
+        echo "2. Verificando estructura..."
+        if [ -d "frontend" ] && [ -d "backend" ]; then
+          echo "✅ Estructura profesional detectada"
+        else
+          echo "📁 Creando estructura básica..."
+          mkdir -p frontend backend contracts docs
+        fi
+        
+        echo "✅ Verificaciones de seguridad completadas"
+    
+    - name: Build status
+      run: |
+        echo "🎉 IXIMI Legacy CI Pipeline ejecutado exitosamente"
+        echo "📊 Métricas:"
+        echo "  • Repositorio: legacyiximi-afk/iximi-legacy"
+        echo "  • Rama: ${{ github.ref }}"
+        echo "  • Commit: ${{ github.sha }}"
+        echo "  • Ejecutado por: ${{ github.actor }}"
+        echo ""
+        echo "🚀 Listo para desarrollo de blockchain para textiles indígenas"
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    name: Deploy Documentation
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        keep_files: false

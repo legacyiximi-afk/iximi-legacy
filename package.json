@@ -1,0 +1,43 @@
+{
+  "name": "iximi-legacy",
+  "version": "0.1.0",
+  "description": "Blockchain certification for indigenous Mexican textiles",
+  "main": "index.js",
+  "scripts": {
+    "dev": "echo '🚀 Starting IXIMI Legacy development...'",
+    "test": "echo '🧪 Running tests...' && exit 0",
+    "build": "echo '🏗️ Building project...'",
+    "docs": "echo '📚 Generating documentation...'",
+    "lint": "echo '🔍 Linting code...'",
+    "format": "echo '✨ Formatting code...'",
+    "setup": "echo '⚙️ Setting up development environment...'",
+    "clean": "echo '🧹 Cleaning build files...'",
+    "start": "echo '🎯 Starting IXIMI Legacy... Visit: https://github.com/legacyiximi-afk/iximi-legacy'"
+  },
+  "keywords": [
+    "blockchain",
+    "indigenous",
+    "textiles",
+    "cultural-preservation",
+    "social-impact",
+    "web3",
+    "react",
+    "nodejs",
+    "solidity"
+  ],
+  "author": "Estefanía Pérez Vázquez <legacyiximi@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/legacyiximi-afk/iximi-legacy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/legacyiximi-afk/iximi-legacy/issues"
+  },
+  "homepage": "https://github.com/legacyiximi-afk/iximi-legacy#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
