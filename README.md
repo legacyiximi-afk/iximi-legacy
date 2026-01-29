@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/legacyiximi-afk/iximi-legacy/actions/workflows/ci.yml/badge.svg)](https://github.com/legacyiximi-afk/iximi-legacy/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/legacyiximi-afk/iximi-legacy/actions/workflows/ci.yml/badge.svg)](https://github.com/legacyiximi-afk/iximi-legacy/actions)
 
 # Agrega tu foto/información de contacto
 # Agrega más detalles del proyecto

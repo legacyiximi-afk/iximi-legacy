@@ -1,68 +1,21 @@
-name: "📚 Documentation"
+name: 📚 Documentation
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   docs:
-    name: 📝 Generate Docs
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 1
     
     steps:
     - name: 🚀 Checkout
       uses: actions/checkout@v4
-    
-    - name: 📄 Create Documentation
+      
+    - name: 📝 Generate Docs
       run: |
-        echo "Creating IXIMI Legacy documentation..."
-        
-        # Create docs directory
         mkdir -p docs
-        
-        # Create index.md
-        cat > docs/index.md << 'DOCEOF'
-# 📚 IXIMI Legacy Documentation
-
-## Project Overview
-IXIMI Legacy is a blockchain certification system for indigenous Mexican textiles.
-
-## Quick Start
-\`\`\`bash
-# Clone repository
-git clone https://github.com/legacyiximi-afk/iximi-legacy.git
-
-# Verify structure
-npm run verify
-
-# Start development
-npm start
-\`\`\`
-
-## Mission
-To preserve cultural heritage and ensure fair compensation for indigenous artisans through blockchain technology.
-
-## Contact
-- **Author**: Estefanía Pérez Vázquez
-- **Email**: legacyiximi@gmail.com
-- **GitHub**: [@legacyiximi-afk](https://github.com/legacyiximi-afk)
-
-## Links
-- [Repository](https://github.com/legacyiximi-afk/iximi-legacy)
-- [Actions](https://github.com/legacyiximi-afk/iximi-legacy/actions)
-- [Security](https://github.com/legacyiximi-afk/iximi-legacy/security)
-
----
-
-*Documentation generated on $(date)*
-DOCEOF
-        
-        echo "✅ Documentation created at docs/index.md"
-    
-    - name: ✅ Docs Complete
-      run: |
-        echo "📚 Documentation generation completed!"
-        echo "📁 Location: docs/index.md"
-        echo "🌐 Can be published via GitHub Pages"
+        echo "# IXIMI Legacy Docs" > docs/index.md
+        echo "Generated: $(date)" >> docs/index.md
+        echo "✅ Docs created"

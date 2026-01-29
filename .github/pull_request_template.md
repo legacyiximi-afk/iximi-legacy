@@ -1,31 +1,16 @@
-## 📋 Description
-Please include a summary of the change.
+## Descripción
+Qué cambia este PR?
 
-Fixes # (issue)
-
-## 🔧 Type of Change
+## Tipo de cambio
 - [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation
-- [ ] Refactoring
-- [ ] Other
+- [ ] Nueva feature
+- [ ] Documentación
 
-## 🧪 Testing
-- [ ] Unit tests added
-- [ ] Manual testing performed
-- [ ] All tests pass
+## Checklist
+- [ ] Tests pasan
+- [ ] Documentación actualizada
+- [ ] Sigue principios éticos
 
-## 📸 Screenshots (if applicable)
-
-## ✅ Checklist
-- [ ] My code follows project style
-- [ ] I have reviewed my own code
-- [ ] I have commented complex code
-- [ ] Documentation has been updated
-- [ ] No new warnings generated
-- [ ] Tests have been added
-
-## 🌱 Impact Assessment
-- [ ] Benefits indigenous artisans
-- [ ] Preserves cultural heritage
-- [ ] Aligns with project mission
+## Impacto Cultural
+- [ ] Beneficia artesanos indígenas
+- [ ] Preserva cultura
