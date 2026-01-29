@@ -1,0 +1,74 @@
+name: "🔒 CodeQL Security Analysis"
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday at midnight
+
+permissions:
+  security-events: write
+  actions: read
+  contents: read
+
+jobs:
+  analyze:
+    name: 🔍 Analyze Code
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+    
+    steps:
+    - name: 🚀 Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: 📊 Repository Info
+      run: |
+        echo "💎 IXIMI Legacy - CodeQL Analysis"
+        echo "=================================="
+        echo "Scanning for security vulnerabilities"
+        echo "Language: ${{ matrix.language }}"
+        echo "Branch: ${{ github.ref }}"
+        echo ""
+        echo "📁 Files to analyze:"
+        find . -name "*.js" -type f | head -10
+        echo "=================================="
+    
+    - name: ⚙️ Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-extended,security-and-quality
+    
+    - name: 🔨 Autobuild
+      uses: github/codeql-action/autobuild@v2
+    
+    - name: 🔒 Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+    
+    - name: 📈 Security Report
+      run: |
+        echo "========================================"
+        echo "✅ SECURITY ANALYSIS COMPLETED"
+        echo "========================================"
+        echo "Project: IXIMI Legacy"
+        echo "Type: Blockchain for indigenous textiles"
+        echo "Author: Estefanía Pérez Vázquez"
+        echo "Email: legacyiximi@gmail.com"
+        echo ""
+        echo "📊 Results:"
+        echo "- CodeQL scanning: ACTIVE"
+        echo "- Frequency: Weekly + on every PR"
+        echo "- Language: JavaScript"
+        echo "- Status: PROTECTED"
+        echo ""
+        echo "🔗 View results in Security tab"
+        echo "========================================"

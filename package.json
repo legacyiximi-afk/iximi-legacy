@@ -1,16 +1,33 @@
 {
   "name": "iximi-legacy",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Blockchain certification for indigenous Mexican textiles",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node index.js",
-    "test": "node -e \"console.log('✅ All tests passed successfully!'); process.exit(0)\"",
-    "security-scan": "echo '🔒 Running security checks...' && node -e \"console.log('✅ No security issues found');\"",
-    "verify": "node -e \"console.log('🔍 Verifying IXIMI Legacy...'); const fs = require('fs'); const files = ['index.js', 'src/utils.js', 'src/config.js', 'src/security.js']; files.forEach(f => { if(fs.existsSync(f)) console.log('✅ ' + f + ' found'); else console.log('❌ ' + f + ' missing'); }); console.log('🎯 Verification completed!');\"",
-    "lint": "echo '✨ Code is already clean!'",
-    "build": "echo '🏗️ Build completed successfully!'"
+    "dev": "nodemon index.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci --coverage",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "prepare": "husky install",
+    "precommit": "lint-staged",
+    "security:audit": "npm audit --audit-level=high",
+    "security:check": "npx audit-ci --critical",
+    "docs:generate": "node scripts/generate-docs.js",
+    "docs:serve": "npx serve docs/",
+    "clean": "rm -rf node_modules dist build",
+    "reset": "npm run clean && npm ci"
   },
   "keywords": [
     "blockchain",
@@ -21,9 +38,16 @@
     "web3",
     "react",
     "nodejs",
-    "solidity"
+    "solidity",
+    "polygon",
+    "mexico"
   ],
-  "author": "Estefanía Pérez Vázquez <legacyiximi@gmail.com>",
+  "author": {
+    "name": "Estefanía Pérez Vázquez",
+    "email": "legacyiximi@gmail.com",
+    "url": "https://github.com/legacyiximi-afk"
+  },
+  "contributors": [],
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -34,9 +58,45 @@
   },
   "homepage": "https://github.com/legacyiximi-afk/iximi-legacy#readme",
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "bcryptjs": "^2.4.3",
+    "prisma": "^5.0.0",
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.0",
+    "nodemon": "^3.0.0",
+    "@types/node": "^20.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "./coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/*.test.js"
+    ]
+  }
 }
