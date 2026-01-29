@@ -1,0 +1,87 @@
+name: "🔒 CodeQL Security Analysis"
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  analyze:
+    name: 🔍 Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+    
+    steps:
+    - name: 🚀 Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: 📊 Repository Info
+      run: |
+        echo "💎 IXIMI Legacy - Security Analysis"
+        echo "==================================="
+        echo "Repository: legacyiximi-afk/iximi-legacy"
+        echo "Branch: ${{ github.ref }}"
+        echo "Commit: ${{ github.sha }}"
+        echo ""
+        echo "📁 JavaScript files found:"
+        find . -name "*.js" -type f | grep -v node_modules | head -20
+        echo ""
+        echo "📈 Total lines of JavaScript:"
+        find . -name "*.js" -type f -exec cat {} \; | wc -l
+        echo "==================================="
+    
+    - name: ⚙️ Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-extended,security-and-quality
+        
+    - name: 🔨 Autobuild
+      uses: github/codeql-action/autobuild@v2
+      with:
+        language: javascript
+        
+    - name: 🔒 Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+        
+    - name: ✅ Security Report
+      run: |
+        echo "=========================================="
+        echo "🔒 SECURITY ANALYSIS COMPLETED"
+        echo "=========================================="
+        echo ""
+        echo "🎯 PROJECT: IXIMI Legacy"
+        echo "📝 DESCRIPTION: Blockchain for indigenous textiles"
+        echo "👤 AUTHOR: Estefanía Pérez Vázquez"
+        echo "📧 EMAIL: legacyiximi@gmail.com"
+        echo ""
+        echo "📊 ANALYSIS DETAILS:"
+        echo "- Language: JavaScript"
+        echo "- Files analyzed: All .js files"
+        echo "- Queries: security-extended, security-and-quality"
+        echo "- Status: ✅ COMPLETED"
+        echo ""
+        echo "🚀 NEXT STEPS:"
+        echo "1. Check Security tab for detailed results"
+        echo "2. Review any findings in Code Scanning alerts"
+        echo "3. Address critical issues immediately"
+        echo "4. Monitor weekly automated scans"
+        echo ""
+        echo "🌐 LINKS:"
+        echo "- Repository: https://github.com/legacyiximi-afk/iximi-legacy"
+        echo "- Security: https://github.com/legacyiximi-afk/iximi-legacy/security"
+        echo "- Actions: https://github.com/legacyiximi-afk/iximi-legacy/actions"
+        echo "=========================================="
