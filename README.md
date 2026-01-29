@@ -1,4 +1,7 @@
-<div align="center">
+
+# Agrega tu foto/información de contacto
+# Agrega más detalles del proyecto
+# Personaliza los colores/estilos<div align="center">
 
 # 💎 IXIMI Legacy
 
